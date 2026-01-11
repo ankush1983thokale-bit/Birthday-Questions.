@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Heart-to-Heart ✨</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;500&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #ff758c;
+            --soft-pink: #ffafbd;
+            --glass: rgba(255, 255, 255, 0.1);
+            --bg: #0f0c29;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 40px 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+            text-align: center;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+        }
+
+        .fade-in { animation: slideIn 0.6s forwards; }
+        .fade-out { animation: slideOut 0.4s forwards; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-30px); }
+        }
+
+        h2 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--soft-pink); margin-bottom: 20px; }
+        h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 20px; line-height: 1.4; font-style: italic; }
+        p { font-size: 15px; line-height: 1.8; opacity: 0.9; margin-bottom: 20px; }
+
+        textarea {
+            width: 100%; height: 120px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px;
+            color: white; padding: 15px; font-family: inherit; resize: none;
+            margin-bottom: 20px; outline: none; transition: 0.3s;
+        }
+        textarea:focus { background: rgba(255, 255, 255, 0.1); border-color: var(--accent); }
+
+        button {
+            background: linear-gradient(135deg, var(--accent), #ff7eb3);
+            color: white; border: none; padding: 15px 35px; border-radius: 50px;
+            font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.3);
+        }
+        button:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 117, 140, 0.4); }
+
+        .progress-bar { width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-bottom: 30px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease; }
+
+        /* Hearts position restored to float from the center of the screen */
+        .emoji-float {
+            position: absolute;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: floatUp 3s ease-in forwards;
+            z-index: 10;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-100px); opacity: 0; }
+        }
+
+        .volume-control {
+            position: fixed; bottom: 25px; right: 25px; background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px); padding: 12px 18px; border-radius: 40px;
+            display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        #volumeSlider { width: 90px; cursor: pointer; accent-color: var(--accent); }
+        #music-icon { font-size: 1.2rem; animation: pulseIcon 2s infinite; }
+        @keyframes pulseIcon { 0% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 0.7; } }
+    </style>
+</head>
+<body>
+
+<audio id="introMusic" src="bg-music.mp3" preload="auto" loop></audio>
+
+<div class="volume-control">
+    <span id="music-icon">🎵</span>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+</div>
+
+<div class="card" id="intro">
+    <h2>Hi Shreya... ✨</h2>
+    <p>
+        I was thinking about how we haven’t talked as deeply lately. 
+        I’d love to catch up with the person you’ve become this year.<br><br>
+        If you're comfortable, I have a few questions for you. 
+        No pressure, just me wanting to know you better. 🤍
+    </p>
+    <button onclick="start()">Start the Journey</button>
+</div>
+
+<div class="card" id="question-card" style="display:none">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <h3 id="qText"></h3>
+    <textarea id="answer" placeholder="Write from your heart..."></textarea>
+    <br>
+    <button onclick="next()">Next Step ✨</button>
+</div>
+
+<div class="card" id="end" style="display:none">
+    <h2>Thank You 🤍</h2>
+    <p>Thank you for being so open with me. It truly means a lot.💌</p>
+    <button onclick="sendWhatsApp()">Share these with me 💌</button>
+</div>
+
+<script>
+const questions = [
+    "What’s one tiny thing that happened today that made you smile? 😊",
+    "What’s your current 'vibe'? (A color, a song, or even an animal!) 🦄",
+    "If we could teleport anywhere right now, where would you want to go? ✈️",
+    "On a scale of ☁️ to ☀️, how are you feeling in life lately?",
+    "What’s the best way to cheer you up after a long, heavy day? 🍫",
+    "What does 'being supported' look like to you? 🤝",
+    "What’s one thing you’ve learned about yourself this past year? 🌱",
+    "When your mind feels crowded, what’s your favorite escape? 🎧",
+    "What makes you feel most 'seen' and valued by others? ✨",
+    "What’s a hidden talent or a new strength you've discovered? 💪",
+    "If you could give your past-self one piece of advice, what would it be? 🕰️",
+    "Be honest—have I accidentally stepped on your toes or hurt you lately? 🥺",
+    "What’s one thing people often get wrong about you? 🎭",
+    "If you were a pizza topping, which one would you be and why? (The more random, the better!) 🍕",
+    "What’s a memory that still feels like a warm hug? 🤗",
+    "If you could change one thing about the past year, what would it be? ✨",
+    "What are you slowly learning to let go of? 🎈",
+    "What’s a dream you're currently chasing, no matter how small? 🏹",
+    "Who is the Shreya you want to be five years from now? 🦋",
+    "In the middle of everything, what gives you the most hope? 🕯️",
+    "Is there a secret thought you've wanted to share but couldn't find the words for? 🤐",
+    "What would make your life feel a little more complete right now? ✨",
+    "If our hearts were sitting together right now, is there anything you've been wanting to whisper to me? 🌙💖"
+];
+
+let index = 0;
+const answers = [];
+const audio = document.getElementById("introMusic");
+const volumeSlider = document.getElementById("volumeSlider");
+
+audio.volume = 0.5;
+volumeSlider.addEventListener("input", (e) => { audio.volume = e.target.value; });
+
+function start(){
+    // Fixing Music Trigger
+    audio.play().then(() => {
+        console.log("Music started playing successfully.");
+    }).catch(e => {
+        console.error("Audio playback failed. Interaction required.", e);
+    });
+
+    document.getElementById("intro").classList.add('fade-out');
+    setTimeout(() => {
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("question-card").style.display = "block";
+        document.getElementById("question-card").classList.add('fade-in');
+        loadQuestion();
+    }, 400);
+}
+
+function loadQuestion(){
+    const progress = ((index + 1) / questions.length) * 100;
+    document.getElementById("progressFill").style.width = progress + "%";
+    document.getElementById("qText").innerText = questions[index];
+    document.getElementById("answer").value = "";
+    document.getElementById("qText").style.opacity = 0;
+    setTimeout(() => { document.getElementById("qText").style.opacity = 1; }, 100);
+}
+
+function next(){
+    const currentAns = document.getElementById("answer").value.trim();
+    answers.push(currentAns || "[Skipped with a smile]");
+    createHeart(); // Heart floats from center
+
+    const card = document.getElementById("question-card");
+    card.classList.remove('fade-in');
+    card.classList.add('fade-out');
+
+    setTimeout(() => {
+        index++;
+        if(index < questions.length){
+            loadQuestion();
+            card.classList.remove('fade-out');
+            card.classList.add('fade-in');
+        } else {
+            finish();
+        }
+    }, 400);
+}
+
+function finish(){
+    audio.pause();
+    document.getElementById("question-card").style.display = "none";
+    document.getElementById("end").style.display = "block";
+    document.getElementById("end").classList.add('fade-in');
+}
+
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'emoji-float';
+    heart.innerText = '💖';
+    // Positioned in the middle/center area as before
+    heart.style.left = Math.random() * 80 + 10 + '%';
+    heart.style.top = '50%'; 
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+}
+
+function sendWhatsApp(){
+    let text = "Hi, here are my thoughts... 💌\n\n";
+    questions.forEach((q, i) => { text += "Q: " + q + "\nAns: " + answers[i] + "\n\n"; });
+    const url = "https://wa.me/?text=" + encodeURIComponent(text);
+    window.open(url, "_blank");
+}
+</script>
+</body>
+</html>
